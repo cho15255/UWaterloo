@@ -2,9 +2,9 @@
 #define DYNAMIC_STACK_AS_ARRAY_H
 
 /*****************************************
- * UW User ID:  uwuserid
+ * UW User ID:  jh9cho 
  * Submitted for ECE 250
- * Semester of Submission:  (Winter|Spring|Fall) 20NN
+ * Semester of Submission:  (Winter) 2013
  *
  * By submitting this file, I affirm that
  * I am the author of all modifications to
@@ -48,57 +48,75 @@ initial_size( n ),
 array_size( n ) {            
       
 	   stack = new Array<T>(array_size);
-	   // What initial value will you give to ihead ?
+	   ihead = count-1;
 }
 
 template <typename T>
 DynamicStackAsArray<T>::~DynamicStackAsArray() {
-	// Enter your implementation
+	delete [] stack;
 }
 
 template <typename  T>
 T DynamicStackAsArray<T>::top() const {
     
-   // Enter your implementation
-      
+    if (count >= 0) {
+       return stack->get(ihead);
+    } else {
+       throw underflow();
+    }
 }
 
 template <typename T>
 int DynamicStackAsArray<T>::size() const {
-	// Enter your implementation
+	return initial_size;
 }
 
 template <typename T>
 bool DynamicStackAsArray<T>::empty() const {
-	// Enter your implementation
+	if (array_size == 0) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 template <typename T>
 int DynamicStackAsArray<T>::capacity() const {
-	// Enter your implementation
+	return array_size;
 }
 
 template <typename T>
 void DynamicStackAsArray<T>::push( T const &obj ) {
-     // Enter your implementation
-                
+    if (count >= initial_size) {
+        array_size = initial_size * 2;
+        stack->resize(array_size);
+    }
+     
+    count += 1;
+    ihead = count-1;
 }
 
 template <typename T>
 T DynamicStackAsArray<T>::pop() {
-	 // Enter your implementation
+    if (count <= 0) {
+        throw underflow;
+    }
+    
+	T temp = top();
+     
+    if (array_size > initial_size && count <= array_size/4) {
+        array_size /= 2;
+        stack->resize(array_size);
+	}
+     
+    return temp;
 }
 
 template <typename T>
 void DynamicStackAsArray<T>::clear() {
-     // Enter your implementation
-     
-     
+    Array<T> *newStack = new Array<T> (initial_size);
+    delete [] stack;
+    stack = newStack;
 }
-
-
-
-
-
 
 #endif

@@ -19,10 +19,10 @@
  
  
  
-
+template <typename T>
 class Array {
         private:
-                int *array;
+                T *array;
                 int array_size;
 
         public:
@@ -39,11 +39,12 @@ class Array {
                 void resize( int );
 };
 
+template <typename T>
 Array::Array( int n ) {
 	//initialize array_size and array
 	array_size = n;
 
-	array = new int [n];
+	array = new T [n];
 	//initialize all the variables inside array to 0
 	for (int i=0; i<array_size; i++)
 	{
@@ -56,8 +57,8 @@ Array::~Array() {
 	delete [] array;
 }
 
-
-int Array::get( int n ) const {
+template <typename T>
+T Array::get( int n ) const {
 	//throws exception when a user inputs an integer that is greater than the array_size
 	if( n > array_size || n < 0)
 	{
@@ -79,12 +80,14 @@ int Array::get( int n ) const {
 //	cout << "Printing finish!" << endl;
 //}
 
+template <typename T>
 int Array::size() const {
 	//returns array_size
    return array_size;
 }
 
-void Array::set( int n, int value ) {
+template <typename T>
+void Array::set( int n, T value ) {
 	//check if user's input is greater than the array_size. if it is greater, it throws an exception.
 	if (n > array_size || n < 0)
 	{
@@ -94,6 +97,7 @@ void Array::set( int n, int value ) {
 	array[n] = value;
 }
 
+template <typename T>
 void Array::resize( int n ) {
 	//throws an exception if the user inputs a negative number
 	if ( n < 0 )
@@ -104,7 +108,7 @@ void Array::resize( int n ) {
 	if (n != array_size)
 	{
 		//creates a new array with size n 
-		int *newArray = new int [n];
+		T *newArray = new T [n];
 
 		if (n > array_size)
 		{

@@ -1,0 +1,3 @@
+{"ts":1359644127073,"silentsave":true,"restoring":false,"patch":[[]],"length":0}
+{"contributors":[],"silentsave":false,"ts":1359644262218,"patch":[[{"diffs":[[1,"#include <iostream>\n\nusing namespace std;\n\n#include \"Exception.h\"\n#include \"Array.h\"\n#include \"DynamicStackAsArray.h\""]],"start1":0,"start2":0,"length1":0,"length2":117}]],"length":117,"saved":false}
+{"ts":1359644263699,"patch":[[{"diffs":[[0,"cStackAsArray.h\""],[1,"\n\n"]],"start1":101,"start2":101,"length1":16,"length2":18}]],"length":119,"saved":false}
