@@ -53,7 +53,7 @@ array_size( n ) {
 
 template <typename T>
 DynamicStackAsArray<T>::~DynamicStackAsArray() {
-	delete [] stack;
+	delete stack;
 }
 
 template <typename  T>
@@ -99,7 +99,7 @@ void DynamicStackAsArray<T>::push( T const &obj ) {
 template <typename T>
 T DynamicStackAsArray<T>::pop() {
     if (count <= 0) {
-        throw underflow;
+        throw underflow();
     }
     
 	T temp = top();

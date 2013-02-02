@@ -30,21 +30,20 @@ class Array {
                 ~Array();
 
                 // accessors
-                int get( int ) const;
+                T get( int ) const;
                 int size() const;
-				void print() const;
 
                 // mutators
-                void set( int, int );
+                void set( int, T );
                 void resize( int );
 };
 
 template <typename T>
-Array::Array( int n ) {
+Array<T>::Array( int n ) {
 	//initialize array_size and array
+	array = new T [n];
 	array_size = n;
 
-	array = new T [n];
 	//initialize all the variables inside array to 0
 	for (int i=0; i<array_size; i++)
 	{
@@ -52,58 +51,42 @@ Array::Array( int n ) {
 	}
 }
 
-Array::~Array() {
+template <typename T>
+Array<T>::~Array() {
 	//destruct an array
 	delete [] array;
 }
 
 template <typename T>
-T Array::get( int n ) const {
+T Array<T>::get( int n ) const {
 	//throws exception when a user inputs an integer that is greater than the array_size
-	if( n > array_size || n < 0)
-	{
+	if( n > array_size || n < 0) {
 		throw ArrayBoundsException();
-	}
-
-	return array[n];   
+	} else {
+		return array[n];
+	}	
 }
-//a method to output all the elements in this array
-//void Array::print() const{
-//	
-//	cout << "Printing array" << endl;
-//
-//	for (int i=0; i<array_size; i++)
-//	{
-//		cout << array[i] << endl;
-//	}
-//
-//	cout << "Printing finish!" << endl;
-//}
 
 template <typename T>
-int Array::size() const {
+int Array<T>::size() const {
 	//returns array_size
    return array_size;
 }
 
 template <typename T>
-void Array::set( int n, T value ) {
+void Array<T>::set( int n, T value ) {
 	//check if user's input is greater than the array_size. if it is greater, it throws an exception.
-	if (n > array_size || n < 0)
-	{
+	if (n > array_size || n < 0) {
 		throw ArrayBoundsException();
+	} else {
+		//sets a value to the element with index n
+		array[n] = value;
 	}
-	//sets a value to the element with index n
-	array[n] = value;
 }
 
 template <typename T>
-void Array::resize( int n ) {
-	//throws an exception if the user inputs a negative number
-	if ( n < 0 )
-	{
-		throw ArrayBoundsException();
-	}
+void Array<T>::resize( int n ) {
+
 	//when array_size is equal to the user input the method executes
 	if (n != array_size)
 	{
