@@ -48,7 +48,7 @@ initial_size( n ),
 array_size( n ) {            
       
 	   stack = new Array<T>(array_size);
-	   ihead = count-1;
+	   ihead = -1;
 }
 
 template <typename T>
@@ -59,7 +59,7 @@ DynamicStackAsArray<T>::~DynamicStackAsArray() {
 template <typename  T>
 T DynamicStackAsArray<T>::top() const {
     
-    if (count >= 0) {
+    if (count > 0) {
        return stack->get(ihead);
     } else {
        throw underflow();
@@ -68,7 +68,7 @@ T DynamicStackAsArray<T>::top() const {
 
 template <typename T>
 int DynamicStackAsArray<T>::size() const {
-	return initial_size;
+	return count;
 }
 
 template <typename T>
@@ -87,13 +87,14 @@ int DynamicStackAsArray<T>::capacity() const {
 
 template <typename T>
 void DynamicStackAsArray<T>::push( T const &obj ) {
-    if (count >= initial_size) {
-        array_size = initial_size * 2;
+    if (count >= array_size) {
+        array_size *= 2;
         stack->resize(array_size);
     }
-     
-    count += 1;
-    ihead = count-1;
+    count ++;
+    ihead ++;
+
+	stack->set(ihead,obj);
 }
 
 template <typename T>
@@ -103,11 +104,15 @@ T DynamicStackAsArray<T>::pop() {
     }
     
 	T temp = top();
-     
+
     if (array_size > initial_size && count <= array_size/4) {
         array_size /= 2;
         stack->resize(array_size);
 	}
+
+	stack->set(ihead,0);
+	ihead--;
+	count--;
      
     return temp;
 }
