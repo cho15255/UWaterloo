@@ -48,19 +48,19 @@ initial_size( n ),
 array_size( n ) {            
       
 	   stack = new Array<T>(array_size);
-	   ihead = -1;
+	   ihead = -1; //index of head is setted to -1 since this array is currently empty
 }
 
 template <typename T>
 DynamicStackAsArray<T>::~DynamicStackAsArray() {
-	delete stack;
+	delete stack; //deleting stack array
 }
 
 template <typename  T>
 T DynamicStackAsArray<T>::top() const {
     
     if (count > 0) {
-       return stack->get(ihead);
+       return stack->get(ihead); //returning top(or head) 
     } else {
        throw underflow();
     }
@@ -73,6 +73,7 @@ int DynamicStackAsArray<T>::size() const {
 
 template <typename T>
 bool DynamicStackAsArray<T>::empty() const {
+    //return true when the array is empty (every elements are 0)
 	if (count == 0) {
         return true;
     } else {
@@ -87,13 +88,16 @@ int DynamicStackAsArray<T>::capacity() const {
 
 template <typename T>
 void DynamicStackAsArray<T>::push( T const &obj ) {
+    //when count is greater or equal to array_size, array_size is doubled
     if (count >= array_size) {
         array_size *= 2;
         stack->resize(array_size);
     }
+    //increment count and ihead for indexing
     count ++;
     ihead ++;
 
+    //user's input (obj) is stored to the head
 	stack->set(ihead,obj);
 }
 
@@ -104,23 +108,26 @@ T DynamicStackAsArray<T>::pop() {
     }
     
 	T temp = top();
-
-	stack->set(ihead,0);
-	ihead--;
+    //set set delete head by initializing it to 0 and decrementing counters
+    stack->set(ihead,0);
+    ihead--;
 	count--;
-
+    
+    //if count is less than array_size/4, resize the array_size to half
     if (array_size > initial_size && count <= array_size/4) {
         array_size /= 2;
         stack->resize(array_size);
 	}
-
+     
     return temp;
 }
 
 template <typename T>
 void DynamicStackAsArray<T>::clear() {
+    //declares new empty arrya with equal initial_size and change the pointer
+    //to the oritinal array to new arra
     Array<T> *newStack = new Array<T> (initial_size);
-    delete [] stack;
+    delete stack;
     stack = newStack;
 }
 
