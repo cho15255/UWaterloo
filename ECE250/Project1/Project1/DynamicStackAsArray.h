@@ -73,7 +73,7 @@ int DynamicStackAsArray<T>::size() const {
 
 template <typename T>
 bool DynamicStackAsArray<T>::empty() const {
-	if (array_size == 0) {
+	if (count == 0) {
         return true;
     } else {
         return false;
