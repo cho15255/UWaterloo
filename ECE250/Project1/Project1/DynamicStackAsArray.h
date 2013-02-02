@@ -105,15 +105,15 @@ T DynamicStackAsArray<T>::pop() {
     
 	T temp = top();
 
+	stack->set(ihead,0);
+	ihead--;
+	count--;
+
     if (array_size > initial_size && count <= array_size/4) {
         array_size /= 2;
         stack->resize(array_size);
 	}
 
-	stack->set(ihead,0);
-	ihead--;
-	count--;
-     
     return temp;
 }
 
