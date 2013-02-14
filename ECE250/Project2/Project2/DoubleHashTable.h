@@ -2,9 +2,9 @@
 #define DOUBLE_HASH_TABLE_H
 
 /*****************************************
- * UW User ID:  uwuserid
+ * UW User ID:  jh9cho
  * Submitted for ECE 250
- * Semester of Submission:  (Winter|Spring|Fall) 20NN
+ * Semester of Submission:  (Winter) 2013
  *
  * By submitting this file, I affirm that
  * I am the author of all modifications to
