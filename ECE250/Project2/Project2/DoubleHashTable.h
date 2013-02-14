@@ -60,8 +60,8 @@ occupied( new state[array_size] ) {
 template<typename T >
 DoubleHashTable<T >::~DoubleHashTable() {
     
-	delete [] occupied;
-    delete [] array;
+	delete[] occupied;
+    delete[] array;
 }
 
 template<typename T >
@@ -79,7 +79,7 @@ int DoubleHashTable<T >::capacity() const {
 template<typename T >
 double DoubleHashTable<T >::load_factor() const {
     
-	return load_factor;
+	return (double)count/array_size;
 }
 
 template<typename T >
@@ -97,7 +97,7 @@ int DoubleHashTable<T >::h1( T const &obj ) const {
    
    int h = (obj)&(array_size-1);
    
-    if (h < 0) {
+    while (h < 0) {
         return h + array_size;
     }
     
@@ -108,13 +108,14 @@ template<typename T >
 int DoubleHashTable<T >::h2( T const &obj ) const {
     
     int h = (obj/array_size)&(array_size-1);
+    
+    while (h < 0) {
+        h = h + array_size;   
+    }
+    
     if (h&1 == 0) {
         h += 1;
     }
-    
-	if (h < 0) {
-        return h + array_size;   
-	}
     
 	return h;
 }
@@ -150,10 +151,14 @@ void DoubleHashTable<T >::insert( T const &obj ) {
          throw overflow();
 	}
     
+    if (member(obj)) {
+        return;
+    }
+    
     int probing = h1(obj);
     int offset = h2(obj);
     
-    while (occupied[probing] == OCCUPIED || occupied[probing] == DELETED) {
+    while (occupied[probing] == OCCUPIED) {
         probing = (probing+offset) & (array_size-1);
     }
     
@@ -172,7 +177,7 @@ bool DoubleHashTable<T >::remove( T const &obj ) {
     int offset = h2(obj);
     
     while (array[probing] != obj) {
-        probing += i*offset;
+        probing = (probing+offset) & (array_size-1);
     }
     
     array[probing] = 0;
@@ -187,6 +192,7 @@ void DoubleHashTable<T >::clear() {
     for (int i=0; i<array_size; i++) {
         array[i] = 0;
         occupied[i] = EMPTY;
+        count = 0;
     }
 }
 
