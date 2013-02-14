@@ -121,11 +121,21 @@ int DoubleHashTable<T >::h2( T const &obj ) const {
 
 template<typename T >
 bool DoubleHashTable<T >::member( T const &obj ) const {
-	for (int i=0; i<array_size; i++) {
-        if (array[i] == obj) {
+	int probing = h1(obj);
+    int offset = h2(obj);
+    
+    for (int i=0; i<array_size; i++) {
+        if (array[probing] == obj) {
             return true;
         }
+        
+        else if (occupied[probing] == EMPTY) {
+            break;
+        }
+        
+        probing += i*offset;
     }
+    
 	return false;
 }
 
@@ -154,19 +164,22 @@ void DoubleHashTable<T >::insert( T const &obj ) {
 template<typename T >
 bool DoubleHashTable<T >::remove( T const &obj ) {
     
+    if (!member(obj)) {
+        return false;
+    }
+    
     int probing = h1(obj);
     int offset = h2(obj);
-    int counter = 0;
     
-    while (array[probing] != obj && occupied[probing] == OCCUPIED && counter < array_size) {
-        probing = (probing+offset) & (array_size-1);
+    while (array[probing] != obj) {
+        probing += i*offset;
     }
     
-    if (array[probing] == obj) {
-        return true;
-    }
-
-    return false;
+    array[probing] = 0;
+    occupied[probing] = DELETED;
+    count --;
+    
+    return true;
 }
 
 template<typename T >
