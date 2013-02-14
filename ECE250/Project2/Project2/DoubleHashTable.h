@@ -94,22 +94,29 @@ bool DoubleHashTable<T >::empty() const {
 
 template<typename T >
 int DoubleHashTable<T >::h1( T const &obj ) const {
-    
-    if ((obj)&(array_size-1) < 0) {
-        return (obj)&(array_size-1) + array_size;
+   
+   int h = (obj)&(array_size-1);
+   
+    if (h < 0) {
+        return h + array_size;
     }
     
-	return (obj)&(array_size-1);
+	return h;
 }
 
 template<typename T >
 int DoubleHashTable<T >::h2( T const &obj ) const {
     
-	if ((obj/array_size)&(array_size-1) < 0) {
-        return (obj/array_size)&(array_size-1) + array_size;   
+    int h = (obj/array_size)&(array_size-1);
+    if (h&1 == 0) {
+        h += 1;
+    }
+    
+	if (h < 0) {
+        return h + array_size;   
 	}
     
-	return (obj/array_size)&(array_size-1);
+	return h;
 }
 
 template<typename T >
@@ -136,7 +143,7 @@ void DoubleHashTable<T >::insert( T const &obj ) {
     int probing = h1(obj);
     int offset = h2(obj);
     
-    while (occupied[probing] == OCCUPIED) {
+    while (occupied[probing] == OCCUPIED || occupied[probing] == DELETED) {
         probing = (probing+offset) & (array_size-1);
     }
     
@@ -146,7 +153,18 @@ void DoubleHashTable<T >::insert( T const &obj ) {
 
 template<typename T >
 bool DoubleHashTable<T >::remove( T const &obj ) {
-    // enter your implemetation here 	
+    
+    int probing = h1(obj);
+    int offset = h2(obj);
+    int counter = 0;
+    
+    while (array[probing] != obj && occupied[probing] == OCCUPIED && counter < array_size) {
+        probing = (probing+offset) & (array_size-1);
+    }
+    
+    if (array[probing] == obj) {
+        return true;
+    }
 
     return false;
 }
