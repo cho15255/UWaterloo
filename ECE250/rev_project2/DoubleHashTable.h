@@ -19,7 +19,7 @@ enum state { EMPTY, OCCUPIED, DELETED };
 template<typename T>
 class DoubleHashTable {
     private:
-		int count;
+    	int count;
 		int power;
 		int array_size;
 		T *array;
@@ -95,7 +95,7 @@ bool DoubleHashTable<T >::empty() const {
 template<typename T >
 int DoubleHashTable<T >::h1( T const &obj ) const {
    
-   int h = (int)obj&(array_size-1);
+   int h = static_cast<int>(obj)&(array_size-1);
    
     while (h < 0) {
         return h + array_size;
@@ -107,7 +107,7 @@ int DoubleHashTable<T >::h1( T const &obj ) const {
 template<typename T >
 int DoubleHashTable<T >::h2( T const &obj ) const {
     
-    int h = (int)(obj/array_size)&(array_size-1);
+    int h = static_cast<int>(obj)(obj/array_size)&(array_size-1);
     
     while (h < 0) {
         h = h + array_size;   
@@ -134,7 +134,7 @@ bool DoubleHashTable<T >::member( T const &obj ) const {
             break;
         }
         
-        probing += i*offset;
+        probing = (probing + offset) & (array_size - 1);
     }
     
 	return false;
@@ -149,21 +149,26 @@ template<typename T >
 void DoubleHashTable<T >::insert( T const &obj ) {
 	if (count == array_size) {
          throw overflow();
+	} else {
+        if (member(obj)) {
+            return;
+        }
+        
+        int probing = h1(obj);
+        int offset = h2(obj);
+        
+        for (int i=0; i<array_size; i++) {
+            if (occupied[probing] == OCCUPIED) {
+                probing = (probing + offset) & (array_size - 1);
+            } else {
+                break;
+            }
+        }
+        
+        array[probing] = obj;
+        occupied[probing] = OCCUPIED;
+        count ++;   
 	}
-    
-    if (member(obj)) {
-        return;
-    }
-    
-    int probing = h1(obj);
-    int offset = h2(obj);
-    
-    while (occupied[probing] == OCCUPIED) {
-        probing = (probing+offset) & (array_size-1);
-    }
-    
-    array[probing] = obj;
-    occupied[probing] = OCCUPIED;
 }
 
 template<typename T >
@@ -177,7 +182,7 @@ bool DoubleHashTable<T >::remove( T const &obj ) {
     int offset = h2(obj);
     
     while (array[probing] != obj) {
-        probing = (probing+offset) & (array_size-1);
+        probing = (probing + offset) & (array_size - 1);
     }
     
     array[probing] = 0;
@@ -192,8 +197,9 @@ void DoubleHashTable<T >::clear() {
     for (int i=0; i<array_size; i++) {
         array[i] = 0;
         occupied[i] = EMPTY;
-        count = 0;
     }
+    
+    count = 0;
 }
 
 template<typename T >
