@@ -147,36 +147,27 @@ T DoubleHashTable<T >::bin( int n ) const {
 
 template<typename T >
 void DoubleHashTable<T >::insert( T const &obj ) {
-
-    if(count == array_size)
-	{
-		throw overflow();
-	}
-	else
-	{
-		if(member(obj) == false)
-		{
-			int h1status = h1(obj); //running h1 with obj
-			int h2status = h2(obj); //running h2 with obj
-
-			for(int i = 0; i < array_size; i++) //looping through the whole array
-				{
-					int position = h1status + (i*h2status); //position is equal to h1status + istatus
-					position = position & (array_size-1); //moding the position since it might go over M
-
-					if(occupied[position] == OCCUPIED) //if it is occupied then contiune the loop
-						continue;
-
-					else if(occupied[position] == EMPTY || occupied[position] == DELETED) //if the position is empty
-					{
-							array[position] = obj; //set the element to object
-							occupied[position] = OCCUPIED; //flag the position to occupied
-							count++; //increment the counter since the a new element is being added
-							break; //break out of the loop when done
-					}
-				}
-		}
-
+	if (count == array_size) {
+         throw overflow();
+	} else {
+        if (member(obj)) {
+            return;
+        }
+        
+        int probing = h1(obj);
+        int offset = h2(obj);
+        
+        for (int i=0; i<array_size; i++) {
+            if (occupied[probing] == OCCUPIED) {
+                probing = (probing + offset) & (array_size - 1);
+            } else {
+                break;
+            }
+        }
+        
+        array[probing] = obj;
+        occupied[probing] = OCCUPIED;
+        count ++;   
 	}
 }
 
