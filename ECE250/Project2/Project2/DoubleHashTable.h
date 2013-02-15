@@ -137,7 +137,7 @@ bool DoubleHashTable<T >::member( T const &obj ) const {
         probing += offset;
         
         if (probing > array_size) {
-            probing = probing & (array_size - 1);
+            probing &= (array_size - 1);
         }
     }
     
@@ -166,7 +166,7 @@ void DoubleHashTable<T >::insert( T const &obj ) {
                 probing += offset;
                 
                 if (probing > array_size) {
-                    probing = probing & (array_size - 1);
+                    probing &= (array_size - 1);
                 }
             } else {
                 break;
@@ -193,7 +193,7 @@ bool DoubleHashTable<T >::remove( T const &obj ) {
         probing += offset;
         
         if (probing > array_size) {
-            probing = probing & (array_size - 1);
+            probing &= (array_size - 1);
         }
     }
     
