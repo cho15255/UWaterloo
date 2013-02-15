@@ -58,7 +58,7 @@
  ****************************************************************************/
 
 namespace ece250 {
-    int memory_alloc_store;
+	int memory_alloc_store;
 
 	const size_t PAD = 16;
 
