@@ -113,7 +113,7 @@ int DoubleHashTable<T >::h2( T const &obj ) const {
         h = h + array_size;   
     }
     
-    if (h&1 == 0) {
+    if (h%2 == 0) {
         h += 1;
     }
     
