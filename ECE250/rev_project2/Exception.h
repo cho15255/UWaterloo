@@ -6,7 +6,7 @@
  *******************************/
 
 class ArrayBoundsException {
-    // empty class
+	// empty class
 };
 
 class underflow {
