@@ -136,7 +136,7 @@ bool DoubleHashTable<T >::member( T const &obj ) const {
         
         probing += offset;
         
-        if (probing >= array_size) {
+        if (probing > array_size) {
             probing &= (array_size - 1);
         }
     }
@@ -153,30 +153,30 @@ template<typename T >
 void DoubleHashTable<T >::insert( T const &obj ) {
 	if (count == array_size) {
          throw overflow();
-	}
-    
-    if (member(obj)) {
-        return;
-    }
-    
-    int probing = h1(obj);
-    int offset = h2(obj);
-    
-    for (int i=0; i<array_size; i++) {
-        if (occupied[probing] == OCCUPIED) {
-            probing += offset;
-            
-            if (probing >= array_size) {
-                probing &= (array_size - 1);
-            }
-        } else {
-            break;
+	} else {
+        if (member(obj)) {
+            return;
         }
-    }
-    
-    array[probing] = obj;
-    occupied[probing] = OCCUPIED;
-    count ++;
+        
+        int probing = h1(obj);
+        int offset = h2(obj);
+        
+        for (int i=0; i<array_size; i++) {
+            if (occupied[probing] == OCCUPIED) {
+                probing += offset;
+                
+                if (probing > array_size) {
+                    probing &= (array_size - 1);
+                }
+            } else {
+                break;
+            }
+        }
+        
+        array[probing] = obj;
+        occupied[probing] = OCCUPIED;
+        count ++;   
+	}
 }
 
 template<typename T >
@@ -192,7 +192,7 @@ bool DoubleHashTable<T >::remove( T const &obj ) {
     while (array[probing] != obj) {
         probing += offset;
         
-        if (probing >= array_size) {
+        if (probing > array_size) {
             probing &= (array_size - 1);
         }
     }
