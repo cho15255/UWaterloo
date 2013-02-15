@@ -126,7 +126,7 @@ bool DoubleHashTable<T >::member( T const &obj ) const {
     int offset = h2(obj);
     
     for (int i=0; i<array_size; i++) {
-        if (array[probing] == obj) {
+        if (array[probing] == obj && occupied[probing] == OCCUPIED) {
             return true;
         } else if (occupied[probing] == EMPTY) {
             break;
@@ -157,7 +157,7 @@ void DoubleHashTable<T >::insert( T const &obj ) {
         
         for (int i=0; i<array_size; i++) {
             if (occupied[probing] == OCCUPIED) {
-                probing = (probing + offset) & (array_size - 1);
+                probing &= (array_size - 1);
             } else {
                 break;
             }
