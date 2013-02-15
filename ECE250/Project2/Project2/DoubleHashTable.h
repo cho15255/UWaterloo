@@ -157,6 +157,7 @@ void DoubleHashTable<T >::insert( T const &obj ) {
         
         for (int i=0; i<array_size; i++) {
             if (occupied[probing] == OCCUPIED) {
+                probing += offset;
                 probing &= (array_size - 1);
             } else {
                 break;
