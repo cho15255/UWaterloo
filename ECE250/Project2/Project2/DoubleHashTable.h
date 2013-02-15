@@ -113,7 +113,7 @@ int DoubleHashTable<T >::h2( T const &obj ) const {
         h = h + array_size;   
     }
     
-    if (h%2 == 0) {
+    if (h&1 == 0) {
         h += 1;
     }
     
@@ -164,6 +164,7 @@ void DoubleHashTable<T >::insert( T const &obj ) {
     
     array[probing] = obj;
     occupied[probing] = OCCUPIED;
+    count ++;
 }
 
 template<typename T >
