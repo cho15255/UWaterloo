@@ -159,7 +159,7 @@ void DoubleHashTable<T >::insert( T const &obj ) {
     int offset = h2(obj);
     
     while (occupied[probing] == OCCUPIED) {
-        probing = (probing+offset) & (array_size-1);
+        probing += offset;
     }
     
     array[probing] = obj;
