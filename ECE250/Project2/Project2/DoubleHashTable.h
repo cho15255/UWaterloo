@@ -95,7 +95,7 @@ bool DoubleHashTable<T >::empty() const {
 template<typename T >
 int DoubleHashTable<T >::h1( T const &obj ) const {
    
-   int h = static_cast<int>(obj)&(array_size-1);
+   int h = (int)obj&(array_size-1);
    
     while (h < 0) {
         return h + array_size;
@@ -107,7 +107,7 @@ int DoubleHashTable<T >::h1( T const &obj ) const {
 template<typename T >
 int DoubleHashTable<T >::h2( T const &obj ) const {
     
-    int h = static_cast<int>(obj/array_size)&(array_size-1);
+    int h = (int)(obj/array_size)&(array_size-1);
     
     while (h < 0) {
         h = h + array_size;   
@@ -202,7 +202,10 @@ void DoubleHashTable<T >::clear() {
 
 template<typename T >
 void DoubleHashTable<T >::print() const {
-    // enter your implemetation here 	
+    
+    for (int i=0; i<array_size; i++) {
+        std::cout << array[i] << std::endl;
+    } 
     return;
 }
 
