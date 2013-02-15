@@ -19,7 +19,7 @@ enum state { EMPTY, OCCUPIED, DELETED };
 template<typename T>
 class DoubleHashTable {
     private:
-		int count;
+        int count;
 		int power;
 		int array_size;
 		T *array;
@@ -107,7 +107,7 @@ int DoubleHashTable<T >::h1( T const &obj ) const {
 template<typename T >
 int DoubleHashTable<T >::h2( T const &obj ) const {
     
-    int h = static_cast<int>(obj)(obj/array_size)&(array_size-1);
+    int h = static_cast<int>(obj/array_size)&(array_size-1);
     
     while (h < 0) {
         h = h + array_size;   
@@ -128,9 +128,7 @@ bool DoubleHashTable<T >::member( T const &obj ) const {
     for (int i=0; i<array_size; i++) {
         if (array[probing] == obj) {
             return true;
-        }
-        
-        else if (occupied[probing] == EMPTY) {
+        } else if (occupied[probing] == EMPTY) {
             break;
         }
         
@@ -167,7 +165,7 @@ void DoubleHashTable<T >::insert( T const &obj ) {
         
         array[probing] = obj;
         occupied[probing] = OCCUPIED;
-        count ++;   
+        count ++;
 	}
 }
 
