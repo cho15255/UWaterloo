@@ -113,7 +113,7 @@ int DoubleHashTable<T >::h2( T const &obj ) const {
         h = h + array_size;   
     }
     
-    if (h&1 == 0) {
+    if (h%2 == 0) {
         h += 1;
     }
     
@@ -134,7 +134,11 @@ bool DoubleHashTable<T >::member( T const &obj ) const {
             break;
         }
         
-        probing += i*offset;
+        probing += offset;
+        
+        if (probing >= array_size) {
+            probing &= (array_size - 1);
+        }
     }
     
 	return false;
@@ -158,8 +162,16 @@ void DoubleHashTable<T >::insert( T const &obj ) {
     int probing = h1(obj);
     int offset = h2(obj);
     
-    while (occupied[probing] == OCCUPIED) {
-        probing += offset;
+    for (int i=0; i<array_size; i++) {
+        if (occupied[probing] == OCCUPIED) {
+            probing += offset;
+            
+            if (probing >= array_size) {
+                probing &= (array_size - 1);
+            }
+        } else {
+            break;
+        }
     }
     
     array[probing] = obj;
@@ -178,7 +190,11 @@ bool DoubleHashTable<T >::remove( T const &obj ) {
     int offset = h2(obj);
     
     while (array[probing] != obj) {
-        probing = (probing+offset) & (array_size-1);
+        probing += offset;
+        
+        if (probing >= array_size) {
+            probing &= (array_size - 1);
+        }
     }
     
     array[probing] = 0;
