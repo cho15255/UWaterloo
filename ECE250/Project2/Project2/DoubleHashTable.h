@@ -209,8 +209,9 @@ void DoubleHashTable<T >::clear() {
     for (int i=0; i<array_size; i++) {
         array[i] = 0;
         occupied[i] = EMPTY;
-        count = 0;
     }
+    
+    count = 0;
 }
 
 template<typename T >
