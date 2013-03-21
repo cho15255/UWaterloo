@@ -61,58 +61,84 @@ count( 0 ) {
 
 template <typename Type>
 BinarySearchTree<Type>::~BinarySearchTree() {
+    
 }
 
 template <typename Type>
 int BinarySearchTree<Type>::size() const {
-	return 0;
+	return count;
 }
 
 template <typename Type>
 bool BinarySearchTree<Type>::empty() const {
-	return true;
+    if (count == 0) {
+        return true;
+    }
+    
+	return false;
 }
 
 template <typename Type>
 Type BinarySearchTree<Type>::min() const {
-	return Type();
+    if (tree_root -> get_left == 0) {
+        return tree_root->retrieve();
+    } else {
+        return tree_root->get_left->min();
+    }
 }
 
 
 
 template <typename Type>
 Type BinarySearchTree<Type>::max() const {
-	return Type();
+    if (tree_root->get_left==0) {
+        return tree_root->retrieve();
+    } else {
+        return tree_root->get_left->max();
+    }
 }
 
 
 
 template <typename Type>
 Type BinarySearchTree<Type>::sum() const {
-	return Type();
+    if (tree_root == 0) {
+        return 0;
+    } else {
+        return (tree_root->retrieve() + tree_root->get_left()->sum() + 
+                tree_root->get_right()->sum());
+    }
 }
-
-
-
-
-
 
 template <typename Type>
 BinarySearchTreeNode<Type> *BinarySearchTree<Type>::root() const 
 {
-	return 0;
+	return tree_root;
 }
-
-
-
 
 template <typename Type>
 bool BinarySearchTree<Type>::member( const Type  &x ) const {
-	return false;
+    if (tree_root->retrieve() == 0) {
+        return false;
+    }
+    if (tree_root->retrieve() == x) {
+        return true;
+    }
+    
+    if (x < tree_root->retrieve()) {
+        return tree_root->get_left()->member(x);
+    } else {
+        return tree_root->get_right()->member(x);
+    }
 }
 
 template <typename Type>
 void BinarySearchTree<Type>::insert( const Type  &x ) {
+    if (tree_root == 0) {
+        tree_root = new BinarySearchTreeNode (x);
+    } else {
+        
+    }
 }
 
 template <typename Type>

@@ -75,7 +75,7 @@ left( 0 )
 
 template <typename Type>
 Type BinarySearchTreeNode<Type>::retrieve() const {
-	return x_value;
+	return this->retrieve();
 }
 
 
@@ -93,10 +93,10 @@ BinarySearchTreeNode<Type> *BinarySearchTreeNode<Type>::get_right() const {
 
 template <typename Type>
 Type BinarySearchTreeNode<Type>::min() const {
-	if (get_left() == 0) {
+	if (this->get_left() == 0) {
         return retrieve();
 	} else {
-        return left->min();
+        return this->get_left()->min();
 	}
 }
 
@@ -104,10 +104,10 @@ Type BinarySearchTreeNode<Type>::min() const {
 
 template <typename Type>
 Type BinarySearchTreeNode<Type>::max() const {
-	if (get_right() == 0) {
+	if (this->get_right() == 0) {
         return retrieve();
 	} else {
-        return right->max();
+        return this->get_right()->max();
 	}
 }
 
@@ -118,7 +118,8 @@ Type BinarySearchTreeNode<Type>::sum() const {
 	if ( this == 0 ) {
 		return 0;
 	} else {
-        return (retrieve() + left->sum() + right->sum());
+        return (this->retrieve() + this->get_left()->sum() + 
+                this->get_right()->sum());
 	}
 }
 
@@ -129,15 +130,14 @@ bool BinarySearchTreeNode<Type>::member( const Type &x) const {
 	if ( this == 0 ) {
 		return false;
     }
-    
-	if (retrieve() == x) {
+	if (this->retrieve() == x) {
         return true;
 	} 
     
-    if (x > retrieve()) {
-        return right->member(x);
+    if (x < this->retrieve()) {
+        return this->get_left()->member(x);
 	} else {
-        return left->member(x);
+        return this->get_right()->member(x);
 	}
 }
 
