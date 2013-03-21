@@ -61,7 +61,7 @@ count( 0 ) {
 
 template <typename Type>
 BinarySearchTree<Type>::~BinarySearchTree() {
-    
+    tree_root->clear();
 }
 
 template <typename Type>
@@ -80,34 +80,21 @@ bool BinarySearchTree<Type>::empty() const {
 
 template <typename Type>
 Type BinarySearchTree<Type>::min() const {
-    if (tree_root -> get_left == 0) {
-        return tree_root->retrieve();
-    } else {
-        return tree_root->get_left->min();
-    }
+    return tree_root->min();
 }
 
 
 
 template <typename Type>
 Type BinarySearchTree<Type>::max() const {
-    if (tree_root->get_left==0) {
-        return tree_root->retrieve();
-    } else {
-        return tree_root->get_left->max();
-    }
+    return tree_root->max();
 }
 
 
 
 template <typename Type>
 Type BinarySearchTree<Type>::sum() const {
-    if (tree_root == 0) {
-        return 0;
-    } else {
-        return (tree_root->retrieve() + tree_root->get_left()->sum() + 
-                tree_root->get_right()->sum());
-    }
+    return tree_root->sum();
 }
 
 template <typename Type>
@@ -118,31 +105,25 @@ BinarySearchTreeNode<Type> *BinarySearchTree<Type>::root() const
 
 template <typename Type>
 bool BinarySearchTree<Type>::member( const Type  &x ) const {
-    if (tree_root->retrieve() == 0) {
-        return false;
-    }
-    if (tree_root->retrieve() == x) {
-        return true;
-    }
-    
-    if (x < tree_root->retrieve()) {
-        return tree_root->get_left()->member(x);
-    } else {
-        return tree_root->get_right()->member(x);
-    }
+    return tree_root->member(x);
 }
 
 template <typename Type>
 void BinarySearchTree<Type>::insert( const Type  &x ) {
     if (tree_root == 0) {
-        tree_root = new BinarySearchTreeNode (x);
+        tree_root = new BinarySearchTreeNode<Type> (x);
     } else {
-        
+        tree_root->insert(x);
     }
+    count ++;
 }
 
 template <typename Type>
 void BinarySearchTree<Type>::clear() {
+    
+    tree_root->clear();
+    count = 0;
+    
 }
 
 // You can modify this function however you want:  it will not be tested

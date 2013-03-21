@@ -69,13 +69,9 @@ left( 0 )
 	// empty constructor
 }
 
-
-
-
-
 template <typename Type>
 Type BinarySearchTreeNode<Type>::retrieve() const {
-	return this->retrieve();
+	return retrieve();
 }
 
 
@@ -90,64 +86,96 @@ BinarySearchTreeNode<Type> *BinarySearchTreeNode<Type>::get_right() const {
 	return right;
 }
 
-
 template <typename Type>
 Type BinarySearchTreeNode<Type>::min() const {
-	if (this->get_left() == 0) {
+	if (get_left() == 0) {
         return retrieve();
 	} else {
-        return this->get_left()->min();
+        return get_left()->min();
 	}
 }
-
-
 
 template <typename Type>
 Type BinarySearchTreeNode<Type>::max() const {
-	if (this->get_right() == 0) {
+	if (get_right() == 0) {
         return retrieve();
 	} else {
-        return this->get_right()->max();
+        return get_right()->max();
 	}
 }
-
-
 
 template <typename Type>
 Type BinarySearchTreeNode<Type>::sum() const {
 	if ( this == 0 ) {
 		return 0;
 	} else {
-        return (this->retrieve() + this->get_left()->sum() + 
-                this->get_right()->sum());
+        return (retrieve() + get_left()->sum() + 
+                get_right()->sum());
 	}
 }
-
-
 
 template <typename Type>
 bool BinarySearchTreeNode<Type>::member( const Type &x) const {
 	if ( this == 0 ) {
 		return false;
     }
-	if (this->retrieve() == x) {
+	if (retrieve() == x) {
         return true;
-	} 
+	}
     
-    if (x < this->retrieve()) {
-        return this->get_left()->member(x);
+    if (x < retrieve()) {
+        return get_left()->member(x);
 	} else {
-        return this->get_right()->member(x);
+        return get_right()->member(x);
 	}
 }
 
 template <typename Type>
 bool BinarySearchTreeNode<Type>::insert(  const Type &x ) {
-	return false;
+    if (retrieve() == x) {
+        
+        return false;
+        
+    } else {
+        if (x < retrieve()) {
+            
+            if (get_left() == 0) {
+                
+                BinarySearchTreeNode<Type> nodeX = BinarySearchTreeNode<Type>(x);
+                left = nodeX;
+                
+            } else {
+                get_left()->insert(x);
+            }
+            
+        } else {
+            
+            if (get_right() == 0) {
+                
+                BinarySearchTreeNode<Type> nodeX = BinarySearchTreeNode<Type>(x);
+                right = nodeX;
+                
+            } else {
+                get_right()->insert(x);
+            }
+        }
+        
+        return true;
+    }
 }
 
 template <typename Type>
 void BinarySearchTreeNode<Type>::clear() {
+    
+    if (get_left() != 0) {
+        left->clear();
+    }
+    
+    if (get_right() != 0) {
+        right->clear();
+    }
+    
+    delete this;
 }
 
 // Is an error showing up in ece250.h or elsewhere?
