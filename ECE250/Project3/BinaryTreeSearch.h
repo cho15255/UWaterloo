@@ -121,8 +121,12 @@ void BinarySearchTree<Type>::insert( const Type  &x ) {
 template <typename Type>
 void BinarySearchTree<Type>::clear() {
     
-    tree_root->clear();
-    count = 0;
+    if (tree_root != 0) {
+        
+        tree_root->clear();
+        count = 0;
+        
+    }
     
 }
 
