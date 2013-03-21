@@ -21,7 +21,7 @@
 template <typename Type>
 class BinarySearchTree {
     private:
-		BinarySearchTreeNode<Type> *tree_root;
+    	BinarySearchTreeNode<Type> *tree_root;
 		int count;
 
 	public:

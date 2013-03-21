@@ -23,7 +23,7 @@ class BinarySearchTree;
 template <typename Type>
 class BinarySearchTreeNode{
     private:
-		Type       x_value;	
+    	Type       x_value;	
         
 	
 		BinarySearchTreeNode<Type> *right;
