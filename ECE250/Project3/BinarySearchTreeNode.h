@@ -59,6 +59,7 @@ class BinarySearchTreeNode{
 	friend class BinarySearchTree<Type>;
 };
 
+
 template <typename Type>
 BinarySearchTreeNode<Type>::BinarySearchTreeNode( const Type  &x ):
 x_value( x ),  
@@ -72,6 +73,8 @@ template <typename Type>
 Type BinarySearchTreeNode<Type>::retrieve() const {
 	return x_value;
 }
+
+
 
 template <typename Type>
 BinarySearchTreeNode<Type> *BinarySearchTreeNode<Type>::get_left() const {
