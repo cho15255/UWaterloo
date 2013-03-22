@@ -21,7 +21,7 @@
 template <typename Type>
 class BinarySearchTree {
     private:
-    	BinarySearchTreeNode<Type> *tree_root;
+        BinarySearchTreeNode<Type> *tree_root;
 		int count;
 
 	public:
@@ -80,6 +80,10 @@ bool BinarySearchTree<Type>::empty() const {
 
 template <typename Type>
 Type BinarySearchTree<Type>::min() const {
+	if (tree_root == 0) {
+		throw underflow(); 
+	}
+
     return tree_root->min();
 }
 
@@ -87,6 +91,10 @@ Type BinarySearchTree<Type>::min() const {
 
 template <typename Type>
 Type BinarySearchTree<Type>::max() const {
+	if (tree_root == 0) {
+		throw underflow();
+	} 
+
     return tree_root->max();
 }
 
@@ -112,20 +120,20 @@ template <typename Type>
 void BinarySearchTree<Type>::insert( const Type  &x ) {
     if (tree_root == 0) {
         tree_root = new BinarySearchTreeNode<Type> (x);
+		count ++;
     } else {
-        tree_root->insert(x);
+        if (tree_root->insert(x)) {
+			count++;
+		}
     }
-    count ++;
 }
 
 template <typename Type>
 void BinarySearchTree<Type>::clear() {
     
     if (tree_root != 0) {
-        
         tree_root->clear();
         count = 0;
-        
     }
     
 }
