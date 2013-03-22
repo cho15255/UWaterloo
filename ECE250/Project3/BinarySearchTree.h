@@ -87,8 +87,6 @@ Type BinarySearchTree<Type>::min() const {
     return tree_root->min();
 }
 
-
-
 template <typename Type>
 Type BinarySearchTree<Type>::max() const {
 	if (tree_root == 0) {
@@ -97,8 +95,6 @@ Type BinarySearchTree<Type>::max() const {
 
     return tree_root->max();
 }
-
-
 
 template <typename Type>
 Type BinarySearchTree<Type>::sum() const {

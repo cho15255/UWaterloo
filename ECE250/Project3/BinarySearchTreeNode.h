@@ -59,7 +59,6 @@ class BinarySearchTreeNode{
 	friend class BinarySearchTree<Type>;
 };
 
-
 template <typename Type>
 BinarySearchTreeNode<Type>::BinarySearchTreeNode( const Type  &x ):
 x_value( x ),  
@@ -73,8 +72,6 @@ template <typename Type>
 Type BinarySearchTreeNode<Type>::retrieve() const {
 	return x_value;
 }
-
-
 
 template <typename Type>
 BinarySearchTreeNode<Type> *BinarySearchTreeNode<Type>::get_left() const {
@@ -132,11 +129,9 @@ bool BinarySearchTreeNode<Type>::member( const Type &x) const {
 
 template <typename Type>
 bool BinarySearchTreeNode<Type>::insert( const Type &x ) {
-	bool condition;
-
     if (retrieve() == x) {
         
-        condition = false;
+        return false;
         
     } else {
         if (x < retrieve()) {
@@ -144,10 +139,10 @@ bool BinarySearchTreeNode<Type>::insert( const Type &x ) {
             if (get_left() == 0) {
                 
                 left = new BinarySearchTreeNode(x);
-				condition = true;
+				return true;
                 
             } else {
-                condition = get_left()->insert(x);
+                return get_left()->insert(x);
             }
             
         } else {
@@ -155,15 +150,13 @@ bool BinarySearchTreeNode<Type>::insert( const Type &x ) {
             if (get_right() == 0) {
                 
                 right = new BinarySearchTreeNode(x);
-				condition = true;
+				return true;
                 
             } else {
-                condition = get_right()->insert(x);
+                return get_right()->insert(x);
             }
         }
     }
-
-	return condition;
 }
 
 template <typename Type>
