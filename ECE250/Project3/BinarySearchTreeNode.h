@@ -141,8 +141,7 @@ bool BinarySearchTreeNode<Type>::insert(  const Type &x ) {
             
             if (get_left() == 0) {
                 
-                BinarySearchTreeNode<Type> *nodeX = BinarySearchTreeNode<Type>(x);
-                left = nodeX;
+                left = new BinarySearchTreeNode(x);
                 
             } else {
                 get_left()->insert(x);
@@ -152,8 +151,7 @@ bool BinarySearchTreeNode<Type>::insert(  const Type &x ) {
             
             if (get_right() == 0) {
                 
-                BinarySearchTreeNode<Type> nodeX = BinarySearchTreeNode<Type>(x);
-                right = nodeX;
+                right = new BinarySearchTreeNode(x);
                 
             } else {
                 get_right()->insert(x);
