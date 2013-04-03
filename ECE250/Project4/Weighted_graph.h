@@ -21,7 +21,8 @@ class Weighted_graph {
 		// your implementation here
 		static const double INF;
         int vertice;
-        double 
+        int edges;
+        double **matrix;
 
 	public:
 		Weighted_graph( int = 50 );
@@ -37,18 +38,29 @@ class Weighted_graph {
 
 const double Weighted_graph::INF = std::numeric_limits<double>::infinity();
 
-Weighted_graph::Weighted_graph(int n) {
+Weighted_graph::Weighted_graph(int n): 
+(vertice = n), (edges = 0) {
     
     if (n <= 0) {
-        vertice = n;
+        
+        vertice = 1;
+        matrix = new double*[1];
+        matrix[1] = new double[1];
+    
     }
 }
 
 Weighted_graph::~Weighted_graph() {
-    //destructor
+    for (int i=0; i<vertice; i++) {
+        delete[] matrix[i];
+    }
 }
 
-int Weighted_graph::degree(int n) {
+int Weighted_graph::degree(int n) const {
+    
+}
+
+int Weighted_graph::edge_cout() const {
     
 }
 
