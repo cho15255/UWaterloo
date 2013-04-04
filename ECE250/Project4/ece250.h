@@ -443,7 +443,7 @@ void operator delete[]( void *ptr ) {
 	size_t size = ece250::allocation_table.remove( ptr, true );
 
 	if ( ece250::allocation_table.is_recording() ) {
-		ece250::check_array_bounds( static_cast<char *>( ptr ) - ece250::PAD, size + 2*ece250::PAD );
+//		ece250::check_array_bounds( static_cast<char *>( ptr ) - ece250::PAD, size + 2*ece250::PAD );
 	}
 
 	free( static_cast<char *>( ptr ) - ece250::PAD );

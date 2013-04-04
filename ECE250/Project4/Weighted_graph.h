@@ -26,6 +26,8 @@ class Weighted_graph {
         int vertices;
         int *degrees;
         double **matrix;
+        bool *table_Validity;
+        double *table_Distance;
 
 	public:
 		Weighted_graph( int = 50 );
@@ -42,20 +44,30 @@ class Weighted_graph {
 const double Weighted_graph::INF = std::numeric_limits<double>::infinity();
 
 Weighted_graph::Weighted_graph(int n): 
-(vertices = n), (edges = 0) {
+edges(0) {
     
     if (n <= 0) 
         n = 1;
         
+    vertices = n;
+    table_Distance = new double [n];
+    table_Validity = new bool [n];
+    matrix = new double *[n];
+    degrees = new int [n];
+        
     for (int i=0; i<n; i++) {
         matrix[i] = new double[n];
+        table_Distance[i] = INF;
+        table_Validity[i] = false;
+        degrees[i] = 0;
+        for (int j=0; j<n; j++) {
+            matrix[i][j] = INF;
+        }
     }
-    
-    degrees = new int[n];
 }
 
 Weighted_graph::~Weighted_graph() {
-    for (int i=0; i<vertice; i++) {
+    for (int i=0; i<vertices; i++) {
         delete[] matrix[i];
     }
 }
@@ -85,7 +97,52 @@ double Weighted_graph::distance(int m, int n) const {
     if (m > vertices || n > vertices || m <= 0 || n <= 0)
         throw illegal_argument();
     
+    for (int i=0; i<vertices; i++) {
+        table_Distance[i] = INF;
+        table_Validity[i] = false;
+    }
     
+    int smallest = m;
+    table_Distance[m] = 0;
+    table_Validity[m] = true;
+    
+    for (int i=0; i<vertices; i++) {
+        
+        //finding vertices with smallest weight
+        for (int j=0; j<vertices; j++) {
+            if (table_Distance[smallest] > table_Distance[j] || !table_Validity[j]) {
+                smallest = j;
+                table_Validity = true;
+            }
+        }
+        
+        //setting adjacent node's distance
+        for (int j=0; j<vertices; j++) {
+            if (matrix[i][j] != INF && !table_Validity[j] && 
+                    table_Distance[j] < table_Distance[smallest] + matrix[i][j]) {
+                table_Distance[j] = table_Distance[smallest] + matrix[i][j];
+            }
+        }
+        
+        //break if nth position is smallest
+        if (table_Validity[n])
+            break;
+    }
+    
+    return table_Distance[n];
+}
+
+void Weighted_graph::insert(int m, int n, double w) {
+    if (w <= 0 || m <= 0 || n <= 0 || m == n || m > vertices || n > vertices)
+        throw illegal_argument();
+    
+    if (matrix[m][n] == INF) {
+        matrix[m][n] = w;
+        degree[m]++;
+        degree[n]++;
+    } else {
+        matrix[m][n] = w;
+    }
 }
 
 #endif
