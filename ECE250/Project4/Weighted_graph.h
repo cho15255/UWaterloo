@@ -136,6 +136,7 @@ void Weighted_graph::insert(int m, int n, double w) {
     if (w <= 0 || m <= 0 || n <= 0 || m == n || m > vertices || n > vertices)
         throw illegal_argument();
     
+    //if edge exists, add degree of m and n
     if (matrix[m][n] == INF) {
         matrix[m][n] = w;
         degree[m]++;

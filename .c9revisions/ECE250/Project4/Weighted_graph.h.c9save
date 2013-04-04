@@ -115,3 +115,4 @@
 {"ts":1365085002372,"patch":[[{"diffs":[[0,"gree[n]++;\r\n"],[1,"    } else {\r\n        matrix[m][n] = w;\r\n"],[0,"    }\r\n}\r\n\r\n"]],"start1":3516,"start2":3516,"length1":24,"length2":65}]],"length":3587,"saved":false}
 {"ts":1365085713569,"patch":[[{"diffs":[[0," != INF "],[-1,"|| "],[1,"&& !table_Validity[j]"],[0,") {\r\n   "]],"start1":2974,"start2":2974,"length1":19,"length2":37}]],"length":3605,"saved":false}
 {"ts":1365086157594,"patch":[[{"diffs":[[0,"able_Validity[j]"],[1," && \r\n                    table_Distance[j] < table_Distance[smallest] + matrix[i][j]"],[0,") {\r\n           "]],"start1":2987,"start2":2987,"length1":32,"length2":117}]],"length":3690,"saved":false}
+{"ts":1365086240000,"patch":[[{"diffs":[[0,"ument();\r\n    \r\n"],[1,"    //if edge exists, add degree of m and n\r\n"],[0,"    if (matrix[m"]],"start1":3512,"start2":3512,"length1":32,"length2":77}]],"length":3735,"saved":false}
