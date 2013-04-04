@@ -4,7 +4,9 @@
 #include <iostream>
 #include <limits>
 #include "Exception.h"
-#include "ece250"
+#include "ece250.h"
+
+using namespace std;
 
 /*****************************************
  * UW User ID:  uwuserid
@@ -20,7 +22,7 @@
 
 class Weighted_graph {
     private:
-		// your implementation here
+        // your implementation here
 		static const double INF;
         int edges;
         int vertices;
@@ -70,21 +72,25 @@ Weighted_graph::~Weighted_graph() {
     for (int i=0; i<vertices; i++) {
         delete[] matrix[i];
     }
+    delete[] matrix;
+    delete[] table_Distance;
+    delete[] table_Validity;
+    delete[] degrees;
 }
 
 int Weighted_graph::degree(int n) const {
-    if (n > vertices || n <= 0) 
+    if (n >= vertices || n < 0) 
         throw illegal_argument();
     
     return degrees[n];
 }
 
-int Weighted_graph::edge_cout() const {
+int Weighted_graph::edge_count() const {
     return edges;
 }
 
 double Weighted_graph::adjacent(int m, int n) const {
-    if (m > vertices || n > vertices || m <= 0 || n <= 0)
+    if (m >= vertices || n >= vertices || m < 0 || n < 0)
         throw illegal_argument();
     
     if (matrix[m][n] == INF)
@@ -94,7 +100,7 @@ double Weighted_graph::adjacent(int m, int n) const {
 }
 
 double Weighted_graph::distance(int m, int n) const {
-    if (m > vertices || n > vertices || m <= 0 || n <= 0)
+    if (m >= vertices || n >= vertices || m < 0 || n < 0)
         throw illegal_argument();
     
     for (int i=0; i<vertices; i++) {
@@ -102,48 +108,54 @@ double Weighted_graph::distance(int m, int n) const {
         table_Validity[i] = false;
     }
     
-    int smallest = m;
+    double smallest;
+	int small;
     table_Distance[m] = 0;
-    table_Validity[m] = true;
+    //table_Validity[m] = true;
     
     for (int i=0; i<vertices; i++) {
-        
+
+		smallest = INF;
+
+        //break if nth position is smallest
+		if (table_Validity[n])
+            break;
+
         //finding vertices with smallest weight
         for (int j=0; j<vertices; j++) {
-            if (table_Distance[smallest] > table_Distance[j] || !table_Validity[j]) {
-                smallest = j;
-                table_Validity = true;
+            if (smallest > table_Distance[j] && !table_Validity[j]) {
+                smallest = table_Distance[j];
+				small = j;
             }
         }
         
         //setting adjacent node's distance
         for (int j=0; j<vertices; j++) {
-            if (matrix[i][j] != INF && !table_Validity[j] && 
-                    table_Distance[j] < table_Distance[smallest] + matrix[i][j]) {
-                table_Distance[j] = table_Distance[smallest] + matrix[i][j];
+            if (matrix[small][j] != INF && !table_Validity[j] && 
+                    table_Distance[j] > table_Distance[small] + matrix[small][j]) {
+                table_Distance[j] = table_Distance[small] + matrix[small][j];
             }
         }
         
-        //break if nth position is smallest
-        if (table_Validity[n])
-            break;
+		table_Validity[small] = true;
     }
     
     return table_Distance[n];
 }
 
 void Weighted_graph::insert(int m, int n, double w) {
-    if (w <= 0 || m <= 0 || n <= 0 || m == n || m > vertices || n > vertices)
+    if (w < 0 || m < 0 || n < 0 || m == n || m >= vertices || n >= vertices)
         throw illegal_argument();
     
     //if edge exists, add degree of m and n
     if (matrix[m][n] == INF) {
-        matrix[m][n] = w;
-        degree[m]++;
-        degree[n]++;
-    } else {
-        matrix[m][n] = w;
+		degrees[m]++;
+		degrees[n]++;
+		edges++;
     }
+
+    matrix[m][n] = w;
+	matrix[n][m] = w;
 }
 
 #endif
