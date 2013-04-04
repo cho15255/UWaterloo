@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <limits>
+#include "Exception.h"
+#include "ece250"
 
 /*****************************************
  * UW User ID:  uwuserid
@@ -20,8 +22,9 @@ class Weighted_graph {
     private:
 		// your implementation here
 		static const double INF;
-        int vertice;
         int edges;
+        int vertices;
+        int *degrees;
         double **matrix;
 
 	public:
@@ -39,15 +42,16 @@ class Weighted_graph {
 const double Weighted_graph::INF = std::numeric_limits<double>::infinity();
 
 Weighted_graph::Weighted_graph(int n): 
-(vertice = n), (edges = 0) {
+(vertices = n), (edges = 0) {
     
-    if (n <= 0) {
+    if (n <= 0) 
+        n = 1;
         
-        vertice = 1;
-        matrix = new double*[1];
-        matrix[1] = new double[1];
-    
+    for (int i=0; i<n; i++) {
+        matrix[i] = new double[n];
     }
+    
+    degrees = new int[n];
 }
 
 Weighted_graph::~Weighted_graph() {
@@ -57,10 +61,30 @@ Weighted_graph::~Weighted_graph() {
 }
 
 int Weighted_graph::degree(int n) const {
+    if (n > vertices || n <= 0) 
+        throw illegal_argument();
     
+    return degrees[n];
 }
 
 int Weighted_graph::edge_cout() const {
+    return edges;
+}
+
+double Weighted_graph::adjacent(int m, int n) const {
+    if (m > vertices || n > vertices || m <= 0 || n <= 0)
+        throw illegal_argument();
+    
+    if (matrix[m][n] == INF)
+        return 0.0;
+    else
+        return matrix[m][n];
+}
+
+double Weighted_graph::distance(int m, int n) const {
+    if (m > vertices || n > vertices || m <= 0 || n <= 0)
+        throw illegal_argument();
+    
     
 }
 
